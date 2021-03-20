@@ -14,10 +14,39 @@ import Colors from '../constants/color';
 
 export const StartGameScreen = () => {
   const [enteredValue, setEnteredValue] = useState('');
+  const [confirmed, setConfirmed] = useState(false);
+  const [selectedNumber, setSelectedNumber] = useState();
 
   const numberInputHandler = inputText => {
     setEnteredValue(inputText.replace(/[^0-9]/g, ''));
   };
+
+  const resetInputHandler = () => {
+    setEnteredValue('');
+    setConfirmed(false);
+  };
+
+  const confirmInputHandler = () => {
+    const chosenNumber = parseInt(enteredValue);
+
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+      return;
+    }
+
+    setConfirmed(true);
+    setEnteredValue('');
+    // There is no problem with this instruction here, because
+    // setEnteredValue('') will be queued by React and will only be processed the
+    // next time the component is rendered.
+    // So, these 3 state changes are all batched together to result in one render cycle.
+    setSelectedNumber(chosenNumber);
+  };
+
+  let confirmedOutput;
+
+  if (confirmed) {
+    confirmedOutput = <Text>Chosen Number: {selectedNumber}</Text>;
+  }
 
   return (
     <TouchableWithoutFeedback
@@ -41,17 +70,22 @@ export const StartGameScreen = () => {
           />
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
-              <Button title="Reset" color={Colors.accent} onPress={() => {}} />
+              <Button
+                title="Reset"
+                color={Colors.accent}
+                onPress={resetInputHandler}
+              />
             </View>
             <View style={styles.button}>
               <Button
                 title="Confirm"
                 color={Colors.primary}
-                onPress={() => {}}
+                onPress={confirmInputHandler}
               />
             </View>
           </View>
         </Card>
+        {confirmedOutput}
       </View>
     </TouchableWithoutFeedback>
   );

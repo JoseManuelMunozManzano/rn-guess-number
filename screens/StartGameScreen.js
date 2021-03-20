@@ -11,6 +11,7 @@ import {
 
 import { Card } from '../components/Card';
 import { Input } from '../components/Input';
+import { NumberContainer } from '../components/NumberContainer';
 import Colors from '../constants/color';
 
 export const StartGameScreen = () => {
@@ -45,12 +46,20 @@ export const StartGameScreen = () => {
     // next time the component is rendered.
     // So, these 3 state changes are all batched together to result in one render cycle.
     setSelectedNumber(chosenNumber);
+
+    Keyboard.dismiss();
   };
 
   let confirmedOutput;
 
   if (confirmed) {
-    confirmedOutput = <Text>Chosen Number: {selectedNumber}</Text>;
+    confirmedOutput = (
+      <Card style={styles.summaryContainer}>
+        <Text>You selected</Text>
+        <NumberContainer value={selectedNumber} />
+        <Button title="START GAME" />
+      </Card>
+    );
   }
 
   return (
@@ -123,5 +132,9 @@ const styles = StyleSheet.create({
   input: {
     width: 50,
     textAlign: 'center',
+  },
+  summaryContainer: {
+    marginTop: 20,
+    alignItems: 'center',
   },
 });

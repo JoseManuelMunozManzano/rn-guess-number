@@ -10,12 +10,21 @@ import { NumberContainer } from '../components/NumberContainer';
 
 import { generateRandomBetween } from '../helper/generateRandom';
 
-export const GameScreen = ({ userChoice }) => {
+export const GameScreen = ({ userChoice, onGameOver }) => {
   const [currentGuess, setCurrentGuess] = useState(
     generateRandomBetween(1, 100, userChoice)
   );
+  const [rounds, setRounds] = useState(0);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
+
+  // After it has been rendered, this function is executed.
+  // And it will re-run only if one of our dependencies changed.
+  useEffect(() => {
+    if (currentGuess === userChoice) {
+      onGameOver(rounds);
+    }
+  }, [currentGuess, userChoice, onGameOver]);
 
   const nextGuessHandler = direction => {
     if (
@@ -40,6 +49,7 @@ export const GameScreen = ({ userChoice }) => {
       currentGuess
     );
     setCurrentGuess(nextNumber);
+    setRounds(curRounds => curRounds + 1);
   };
 
   return (

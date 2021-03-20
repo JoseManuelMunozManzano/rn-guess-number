@@ -4,11 +4,12 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Button, StyleSheet, Text, View } from 'react-native';
-import { Card } from '../components/Card';
 
+import { Card } from '../components/Card';
 import { NumberContainer } from '../components/NumberContainer';
 
 import { generateRandomBetween } from '../helper/generateRandom';
+import { styles as DefaultStyles } from '../constants/default-styles';
 
 export const GameScreen = ({ userChoice, onGameOver }) => {
   const [currentGuess, setCurrentGuess] = useState(
@@ -54,7 +55,7 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
 
   return (
     <View style={styles.screen}>
-      <Text>Opponent's Guess</Text>
+      <Text style={DefaultStyles.title}>Opponent's Guess</Text>
       <NumberContainer value={currentGuess} />
       <Card style={styles.buttonContainer}>
         <Button title="LOWER" onPress={nextGuessHandler.bind(this, 'lower')} />

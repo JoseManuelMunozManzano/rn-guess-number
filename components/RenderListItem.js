@@ -18,5 +18,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: '60%',
   },
 });

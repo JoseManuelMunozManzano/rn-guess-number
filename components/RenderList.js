@@ -1,21 +1,22 @@
-import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 
 import { RenderListItem } from './RenderListItem';
 
 const RenderList = ({ pastGuesses }) => {
   return (
     <View style={styles.listContainer}>
-      {/* contentContainerStyle: To control de layout inside de ScrollView */}
-      <ScrollView contentContainerStyle={styles.list}>
-        {pastGuesses.map((guess, index) => (
+      <FlatList
+        data={pastGuesses}
+        keyExtractor={item => item}
+        renderItem={item => (
           <RenderListItem
-            key={guess}
-            value={guess}
-            numOfRounds={pastGuesses.length - index}
+            numOfRounds={pastGuesses.length - item.index}
+            value={item.item}
           />
-        ))}
-      </ScrollView>
+        )}
+        contentContainerStyle={styles.list}
+      />
     </View>
   );
 };
@@ -27,13 +28,10 @@ const styles = StyleSheet.create({
     // flex: 1 important in Android in order to do the scroll
     // In iOS this is not neccessary
     flex: 1,
-    width: '80%',
+    width: '60%',
   },
   list: {
-    // flex: 1 doesn't work inside a ScrollView
-    // We need flexGrow
     flexGrow: 1,
-    alignItems: 'center',
     justifyContent: 'flex-end',
   },
 });

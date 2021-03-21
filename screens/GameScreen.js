@@ -17,7 +17,7 @@ import RenderList from '../components/RenderList';
 export const GameScreen = ({ userChoice, onGameOver }) => {
   const initialGuess = generateRandomBetween(1, 100, userChoice);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
-  const [pastGuesses, setPastGuesses] = useState([initialGuess]);
+  const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
 
@@ -55,7 +55,10 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
     // We use nextNumber
     // Using currentGuess instead wouldn't work because React won't have updated the
     // state and re-built the component yet.
-    setPastGuesses(curPastGuesses => [nextNumber, ...curPastGuesses]);
+    setPastGuesses(curPastGuesses => [
+      nextNumber.toString(),
+      ...curPastGuesses,
+    ]);
   };
 
   return (

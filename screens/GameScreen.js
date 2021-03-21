@@ -10,6 +10,7 @@ import { NumberContainer } from '../components/NumberContainer';
 
 import { generateRandomBetween } from '../helper/generateRandom';
 import { styles as DefaultStyles } from '../constants/default-styles';
+import { MainButton } from '../components/MainButton';
 
 export const GameScreen = ({ userChoice, onGameOver }) => {
   const [currentGuess, setCurrentGuess] = useState(
@@ -58,8 +59,11 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
       <Text style={DefaultStyles.title}>Opponent's Guess</Text>
       <NumberContainer value={currentGuess} />
       <Card style={styles.buttonContainer}>
-        <Button title="LOWER" onPress={nextGuessHandler.bind(this, 'lower')} />
-        <Button
+        <MainButton
+          title="LOWER"
+          onPress={nextGuessHandler.bind(this, 'lower')}
+        />
+        <MainButton
           title="GREATER"
           onPress={nextGuessHandler.bind(this, 'greater')}
         />
@@ -78,7 +82,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
-    width: 300,
-    maxWidth: '80%',
+    width: 400,
+    maxWidth: '90%',
   },
 });

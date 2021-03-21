@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import { BodyText } from '../components/BodyText';
+import { MainButton } from '../components/MainButton';
 import { TitleText } from '../components/TitleText';
 
 import Colors from '../constants/color';
@@ -25,9 +26,6 @@ export const GameOverScreen = ({ roundsNumber, userNumber, onRestart }) => {
       </View>
       <View style={styles.resultContainer}>
         <BodyText style={styles.resultText}>
-          {/* Text inside of text receives the style defined on the outer text */}
-          {/* Text uses its own positioning system (not Flexbox) where it automatically */}
-          {/* wraps itself into a new line if it doesn't fit into one line */}
           Your phone needed{' '}
           <Text style={{ ...styles.highlight, ...DefaultStyles.result }}>
             {roundsNumber}
@@ -38,7 +36,8 @@ export const GameOverScreen = ({ roundsNumber, userNumber, onRestart }) => {
           </Text>
         </BodyText>
       </View>
-      <Button title="NEW GAME" onPress={onRestart} />
+
+      <MainButton title="NEW GAME" onPress={onRestart} />
     </View>
   );
 };

@@ -3,7 +3,7 @@
 // should be lower or greater.
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { Card } from '../components/Card';
@@ -14,10 +14,9 @@ import { styles as DefaultStyles } from '../constants/default-styles';
 import { MainButton } from '../components/MainButton';
 
 export const GameScreen = ({ userChoice, onGameOver }) => {
-  const [currentGuess, setCurrentGuess] = useState(
-    generateRandomBetween(1, 100, userChoice)
-  );
-  const [rounds, setRounds] = useState(0);
+  const initialGuess = generateRandomBetween(1, 100, userChoice);
+  const [currentGuess, setCurrentGuess] = useState(initialGuess);
+  const [pastGuesses, setPastGuesses] = useState([initialGuess]);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
 
@@ -25,7 +24,7 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
   // And it will re-run only if one of our dependencies changed.
   useEffect(() => {
     if (currentGuess === userChoice) {
-      onGameOver(rounds);
+      onGameOver(pastGuesses.length);
     }
   }, [currentGuess, userChoice, onGameOver]);
 
@@ -43,7 +42,7 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
     if (direction === 'lower') {
       currentHigh.current = currentGuess;
     } else {
-      currentLow.current = currentGuess;
+      currentLow.current = currentGuess + 1;
     }
 
     const nextNumber = generateRandomBetween(
@@ -52,7 +51,10 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
       currentGuess
     );
     setCurrentGuess(nextNumber);
-    setRounds(curRounds => curRounds + 1);
+    // We use nextNumber
+    // Using currentGuess instead wouldn't work because React won't have updated the
+    // state and re-built the component yet.
+    setPastGuesses(curPastGuesses => [nextNumber, ...curPastGuesses]);
   };
 
   return (
@@ -73,6 +75,13 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
           <Ionicons name="md-add" size={24} color="white" />
         </MainButton>
       </Card>
+      <ScrollView>
+        {pastGuesses.map(guess => (
+          <View key={guess}>
+            <Text>{guess}</Text>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 };

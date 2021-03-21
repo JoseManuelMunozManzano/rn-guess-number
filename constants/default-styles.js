@@ -9,4 +9,8 @@ export const styles = StyleSheet.create({
     fontFamily: 'open-sans-bold',
     fontSize: 18,
   },
+  result: {
+    fontFamily: 'open-sans-bold',
+    fontSize: 28,
+  },
 });

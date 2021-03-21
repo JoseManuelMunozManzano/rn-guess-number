@@ -3,15 +3,16 @@
 // should be lower or greater.
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { Card } from '../components/Card';
 import { NumberContainer } from '../components/NumberContainer';
+import { MainButton } from '../components/MainButton';
 
 import { generateRandomBetween } from '../helper/generateRandom';
 import { styles as DefaultStyles } from '../constants/default-styles';
-import { MainButton } from '../components/MainButton';
+import RenderList from '../components/RenderList';
 
 export const GameScreen = ({ userChoice, onGameOver }) => {
   const initialGuess = generateRandomBetween(1, 100, userChoice);
@@ -75,13 +76,7 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
           <Ionicons name="md-add" size={24} color="white" />
         </MainButton>
       </Card>
-      <ScrollView>
-        {pastGuesses.map(guess => (
-          <View key={guess}>
-            <Text>{guess}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <RenderList pastGuesses={pastGuesses} />
     </View>
   );
 };

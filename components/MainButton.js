@@ -4,11 +4,13 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Colors from '../constants/color';
 import { BodyText } from './BodyText';
 
-export const MainButton = ({ title, onPress }) => {
+export const MainButton = ({ title, onPress, children }) => {
   return (
     <TouchableOpacity activeOpacity={0.6} onPress={onPress}>
       <View style={styles.button}>
-        <BodyText style={styles.buttonText}>{title}</BodyText>
+        <BodyText style={styles.buttonText}>
+          {title ? title : children}
+        </BodyText>
       </View>
     </TouchableOpacity>
   );

@@ -3,7 +3,8 @@
 // should be lower or greater.
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Button, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 import { Card } from '../components/Card';
 import { NumberContainer } from '../components/NumberContainer';
@@ -60,13 +61,17 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
       <NumberContainer value={currentGuess} />
       <Card style={styles.buttonContainer}>
         <MainButton
-          title="LOWER"
+          // title="LOWER"
           onPress={nextGuessHandler.bind(this, 'lower')}
-        />
+        >
+          <Ionicons name="md-remove" size={24} color="white" />
+        </MainButton>
         <MainButton
-          title="GREATER"
+          //title="GREATER"
           onPress={nextGuessHandler.bind(this, 'greater')}
-        />
+        >
+          <Ionicons name="md-add" size={24} color="white" />
+        </MainButton>
       </Card>
     </View>
   );

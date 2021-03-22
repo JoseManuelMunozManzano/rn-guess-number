@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   bodyText: {
@@ -11,6 +11,6 @@ export const styles = StyleSheet.create({
   },
   result: {
     fontFamily: 'open-sans-bold',
-    fontSize: 28,
+    fontSize: Dimensions.get('window').width < 350 ? 20 : 28,
   },
 });

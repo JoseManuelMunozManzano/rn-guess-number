@@ -3,7 +3,7 @@
 // should be lower or greater.
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, Dimensions, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { Card } from '../components/Card';
@@ -61,11 +61,24 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
     ]);
   };
 
+  // Using Dimensions here
+  // if (Dimensions.get('window').height > 600) {
+  //   return <View>...</View>
+  // }
+
   return (
     <View style={styles.screen}>
       <Text style={DefaultStyles.title}>Opponent's Guess</Text>
       <NumberContainer value={currentGuess} />
-      <Card style={styles.buttonContainer}>
+      <Card
+        // Using Dimensions here
+        // style={
+        //   Dimensions.get('window').height > 600
+        //     ? styles.buttonContainer
+        //     : styles.buttonContainerSmall
+        // }
+        style={styles.buttonContainer}
+      >
         <MainButton
           // title="LOWER"
           onPress={nextGuessHandler.bind(this, 'lower')}
@@ -93,7 +106,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 20,
+    // Using dimensions in an if condition here
+    marginTop: Dimensions.get('window').height > 600 ? 20 : 5,
     width: 400,
     maxWidth: '90%',
   },

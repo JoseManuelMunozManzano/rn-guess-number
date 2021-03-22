@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 
 import { RenderListItem } from './RenderListItem';
 
 const RenderList = ({ pastGuesses }) => {
+  let listContainerStyle = styles.listContainer;
+
+  if (Dimensions.get('window').width < 350) {
+    listContainerStyle = styles.listContainerBig;
+  }
+
   return (
-    <View style={styles.listContainer}>
+    <View style={listContainerStyle}>
       <FlatList
         data={pastGuesses}
         keyExtractor={item => item}
@@ -29,6 +35,10 @@ const styles = StyleSheet.create({
     // In iOS this is not neccessary
     flex: 1,
     width: '60%',
+  },
+  listContainerBig: {
+    flex: 1,
+    width: '80%',
   },
   list: {
     flexGrow: 1,

@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
 } from 'react-native';
 
@@ -16,6 +17,11 @@ import Colors from '../constants/color';
 import { styles as DefaultStyles } from '../constants/default-styles';
 
 export const GameOverScreen = ({ roundsNumber, userNumber, onRestart }) => {
+  const styles = styleFunction(
+    useWindowDimensions().width,
+    useWindowDimensions().height
+  );
+
   return (
     <ScrollView>
       <View style={styles.screen}>
@@ -51,34 +57,37 @@ export const GameOverScreen = ({ roundsNumber, userNumber, onRestart }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  imageContainer: {
-    width: Dimensions.get('window').width * 0.7,
-    height: Dimensions.get('window').width * 0.7,
-    borderRadius: (Dimensions.get('window').width * 0.7) / 2,
-    borderWidth: 3,
-    borderColor: 'black',
-    overflow: 'hidden',
-    marginVertical: Dimensions.get('window').height / 50,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-  resultContainer: {
-    marginHorizontal: 30,
-    marginVertical: Dimensions.get('window').height / 100,
-  },
-  resultText: {
-    textAlign: 'center',
-    fontSize: Dimensions.get('window').width < 400 ? 16 : 20,
-  },
-  highlight: {
-    color: Colors.primary,
-  },
-});
+const styleFunction = (screenWidth, screenHeight) => {
+  return StyleSheet.create({
+    screen: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingVertical: 10,
+    },
+    imageContainer: {
+      width: screenWidth * 0.7,
+      height: screenWidth * 0.7,
+      borderRadius: (screenWidth * 0.7) / 2,
+      borderWidth: 3,
+      borderColor: 'black',
+      overflow: 'hidden',
+      marginVertical: screenHeight / 50,
+    },
+    image: {
+      width: '100%',
+      height: '100%',
+    },
+    resultContainer: {
+      marginHorizontal: 30,
+      marginVertical: screenHeight / 100,
+    },
+    resultText: {
+      textAlign: 'center',
+      fontSize: screenWidth < 400 ? 16 : 20,
+    },
+    highlight: {
+      color: Colors.primary,
+    },
+  });
+};

@@ -3,7 +3,14 @@
 // should be lower or greater.
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Dimensions, StyleSheet, Text, View } from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { Card } from '../components/Card';
@@ -66,6 +73,26 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
   //   return <View>...</View>
   // }
 
+  if (useWindowDimensions().height < 500) {
+    return (
+      <View style={styles.screen}>
+        <Text style={DefaultStyles.title}>Opponent's Guess</Text>
+        <View style={styles.controls}>
+          <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
+            <Ionicons name="md-remove" size={24} color="white" />
+          </MainButton>
+
+          <NumberContainer value={currentGuess} />
+
+          <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
+            <Ionicons name="md-add" size={24} color="white" />
+          </MainButton>
+        </View>
+        <RenderList pastGuesses={pastGuesses} />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.screen}>
       <Text style={DefaultStyles.title}>Opponent's Guess</Text>
@@ -101,6 +128,12 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 10,
+    alignItems: 'center',
+  },
+  controls: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '80%',
     alignItems: 'center',
   },
   buttonContainer: {

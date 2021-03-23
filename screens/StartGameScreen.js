@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -24,6 +24,9 @@ export const StartGameScreen = ({ onStartGame }) => {
   const [enteredValue, setEnteredValue] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
+  const [buttonWidth, setButtonWidth] = useState(
+    Dimensions.get('window').width / 4
+  );
 
   const numberInputHandler = inputText => {
     setEnteredValue(inputText.replace(/[^0-9]/g, ''));
@@ -33,6 +36,17 @@ export const StartGameScreen = ({ onStartGame }) => {
     setEnteredValue('');
     setConfirmed(false);
   };
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setButtonWidth(Dimensions.get('window').width / 4);
+    };
+    Dimensions.addEventListener('change', updateLayout);
+
+    return () => {
+      Dimensions.removeEventListener('change', updateLayout);
+    };
+  }, [Dimensions]);
 
   const confirmInputHandler = () => {
     const chosenNumber = parseInt(enteredValue);
@@ -97,14 +111,14 @@ export const StartGameScreen = ({ onStartGame }) => {
                 value={enteredValue}
               />
               <View style={styles.buttonContainer}>
-                <View style={styles.button}>
+                <View style={{ width: buttonWidth }}>
                   <Button
                     title="Reset"
                     color={Colors.accent}
                     onPress={resetInputHandler}
                   />
                 </View>
-                <View style={styles.button}>
+                <View style={{ width: buttonWidth }}>
                   <Button
                     title="Confirm"
                     color={Colors.primary}
@@ -143,9 +157,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15,
   },
-  button: {
-    width: Dimensions.get('window').width / 4,
-  },
+  // button: {
+  //   // Dimensions is only calculated when the app starts
+  //   // When you rotate the device, it doesn't recalculate.
+  //   // To recalculate when the orientation changes you don't have to use
+  //   // Dimensions in the StyleSheet, but with useState
+  //   //width: Dimensions.get('window').width / 4,
+  // },
   input: {
     width: 50,
     textAlign: 'center',

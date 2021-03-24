@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+// Component which automatically adjusts your content to fit onto the screen of your
+// device and respect notches and other things
+// SafeAreaView is a wrapping view we can put around our content
+import { SafeAreaView, StyleSheet } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { Header } from './components/Header';
@@ -78,10 +81,11 @@ export default function App() {
   }
 
   return (
-    <View style={styles.screen} onLayout={onLayoutRootView}>
+    // SafeAreaView should always wrap your topmost view
+    <SafeAreaView style={styles.screen} onLayout={onLayoutRootView}>
       <Header title="Guess a Number" />
       {content}
-    </View>
+    </SafeAreaView>
   );
 }
 

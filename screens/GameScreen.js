@@ -24,7 +24,7 @@ import RenderList from '../components/RenderList';
 
 export const GameScreen = ({ userChoice, onGameOver }) => {
   // Locking/Unlocking orientation at runtime among other things
-  ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+  ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
 
   const initialGuess = generateRandomBetween(1, 100, userChoice);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);

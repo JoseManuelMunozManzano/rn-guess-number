@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import { BodyText } from '../components/BodyText';
+// Not exporting from MainButton.android or MainButton.ios, but from MainButton
 import { MainButton } from '../components/MainButton';
 import { TitleText } from '../components/TitleText';
 

@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 import { Card } from '../components/Card';
 import { NumberContainer } from '../components/NumberContainer';
@@ -22,14 +23,15 @@ import { styles as DefaultStyles } from '../constants/default-styles';
 import RenderList from '../components/RenderList';
 
 export const GameScreen = ({ userChoice, onGameOver }) => {
+  // Locking/Unlocking orientation at runtime among other things
+  ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+
   const initialGuess = generateRandomBetween(1, 100, userChoice);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
 
-  // After it has been rendered, this function is executed.
-  // And it will re-run only if one of our dependencies changed.
   useEffect(() => {
     if (currentGuess === userChoice) {
       onGameOver(pastGuesses.length);
@@ -59,19 +61,11 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
       currentGuess
     );
     setCurrentGuess(nextNumber);
-    // We use nextNumber
-    // Using currentGuess instead wouldn't work because React won't have updated the
-    // state and re-built the component yet.
     setPastGuesses(curPastGuesses => [
       nextNumber.toString(),
       ...curPastGuesses,
     ]);
   };
-
-  // Using Dimensions here
-  // if (Dimensions.get('window').height > 600) {
-  //   return <View>...</View>
-  // }
 
   if (useWindowDimensions().height < 500) {
     return (
@@ -97,25 +91,11 @@ export const GameScreen = ({ userChoice, onGameOver }) => {
     <View style={styles.screen}>
       <Text style={DefaultStyles.title}>Opponent's Guess</Text>
       <NumberContainer value={currentGuess} />
-      <Card
-        // Using Dimensions here
-        // style={
-        //   Dimensions.get('window').height > 600
-        //     ? styles.buttonContainer
-        //     : styles.buttonContainerSmall
-        // }
-        style={styles.buttonContainer}
-      >
-        <MainButton
-          // title="LOWER"
-          onPress={nextGuessHandler.bind(this, 'lower')}
-        >
+      <Card style={styles.buttonContainer}>
+        <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
           <Ionicons name="md-remove" size={24} color="white" />
         </MainButton>
-        <MainButton
-          //title="GREATER"
-          onPress={nextGuessHandler.bind(this, 'greater')}
-        >
+        <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
           <Ionicons name="md-add" size={24} color="white" />
         </MainButton>
       </Card>
@@ -139,7 +119,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    // Using dimensions in an if condition here
     marginTop: Dimensions.get('window').height > 600 ? 20 : 5,
     width: 400,
     maxWidth: '90%',
